@@ -73,8 +73,20 @@ public class Main {
                         if (contactSearch == null) {
                             System.out.println("Không tìm thấy danh bạ");
                         } else {
-                            System.out.println(contactSearch);
-                            break;
+                            try {
+                                updateInfo(contactSearch);
+                            } catch (InvalidDataException e) {
+                                System.out.println(e.getMessage());
+                                System.out.println("Sửa danh bạ không thành công");
+                            } catch (InputMismatchException e) {
+                                System.out.println("Dữ liệu nhập vào phải là số");
+                                System.out.println("Sửa danh bạ không thành công");
+                            } catch (DateTimeException e) {
+                                System.out.println("Ngày tháng nhập vào không đúng!");
+                                System.out.println("Sửa danh bạ không thành công");
+                            } finally {
+                                System.out.println("Kết thúc việc Sửa danh bạ");
+                            }
                         }
                     } while (!input.equals(""));
                     break;
@@ -198,7 +210,7 @@ public class Main {
         scanner.nextLine();
         System.out.println("Nhập vào email: ");
         String email = scanner.nextLine();
-        if (!email.matches("\\D\\w*@\\w+\\.(\\w{2,3}|\\.\\w{2,3})")) {
+        if (!email.matches("^\\D\\w*@\\w+\\.(\\w{2,3}|\\.\\w{2,3})")) {
             throw new InvalidDataException();
         }
         contact.setEmail(email);
