@@ -105,6 +105,7 @@ public class Main {
                                 System.out.println("Xoá danh bạ thành công!");
                                 break;
                             } else {
+                                System.out.println("Không xoá danh bạ!");
                                 break;
                             }
                         }
@@ -118,6 +119,7 @@ public class Main {
                         case "1":
                             System.out.println("Nhập số điện thoại: ");
                             input = scanner.nextLine();
+                            System.out.println(input);
                             Contact contactSearch = manager.searchNumberRelatively(input);
                             if (contactSearch == null) {
                                 System.out.println("Không tìm thấy danh bạ");

@@ -35,7 +35,7 @@ public class Manager implements Serializable {
 
     public Contact searchNumberRelatively(String number) {
         for (Contact contact : contacts) {
-            if (contact.getName().contains(number)) {
+            if (contact.getName().toLowerCase().contains(number.toLowerCase())) {
                 return contact;
             }
         }
@@ -53,7 +53,7 @@ public class Manager implements Serializable {
 
     public Contact searchNameRelatively(String name) {
         for (Contact contact : contacts) {
-            if (contact.getName().contains(name)) {
+            if (contact.getName().toLowerCase().contains(name.toLowerCase())) {
                 return contact;
             }
         }
