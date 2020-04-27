@@ -3,10 +3,13 @@ package main;/*
  * @author Duc on 4/27/2020
  */
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.util.InputMismatchException;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 public class Main {
@@ -14,20 +17,32 @@ public class Main {
 
     public static void main(String[] args) {
         Manager manager = new Manager();
+        FileService fileService = new FileService();
         String choice;
         boolean isExit = false;
         while (!isExit) {
             System.out.println();
             displayMenu();
             choice = scanner.next();
+            scanner.nextLine();
             switch (choice) {
                 case "1":
+                    String prompt;
                     if (manager.checkStatus()) {
                         System.out.println("Danh bạ trống, cần thêm danh bạ");
                     } else {
-                        for (int index = 0; index < manager.getContactsList().size(); index++) {
-                            System.out.println(manager.getContactsList().get(index));
-                        }
+                        Iterator<Contact> iterator = manager.getContactsList().iterator();
+                        do {
+                            try {
+                                for (int index = 0; index < 5; index++) {
+                                    System.out.println(iterator.next());
+                                }
+                            } catch (NoSuchElementException e) {
+                                System.out.println("Danh bạ không đủ 5 số");
+                            }
+                            System.out.println("Ấn enter để tiếp tục");
+                            prompt = scanner.nextLine();
+                        } while (prompt.equals("") && iterator.hasNext());
                     }
                     break;
                 case "2":
@@ -50,7 +65,6 @@ public class Main {
                     }
                     break;
                 case "3":
-                    scanner.nextLine();
                     String input;
                     do {
                         System.out.println("Nhập vào số điện thoại, ấn enter để thoát: ");
@@ -65,7 +79,6 @@ public class Main {
                     } while (!input.equals(""));
                     break;
                 case "4":
-                    scanner.nextLine();
                     do {
                         System.out.println("Nhập vào số điện thoại, ấn enter để thoát: ");
                         input = scanner.nextLine();
@@ -86,7 +99,6 @@ public class Main {
                     } while (!input.equals(""));
                     break;
                 case "5":
-                    scanner.nextLine();
                     System.out.println("1. Tìm kiếm theo số điện thoại");
                     System.out.println("2. Tìm kiếm theo tên");
                     choice = scanner.nextLine();
@@ -116,15 +128,33 @@ public class Main {
                     }
                     break;
                 case "6":
-                    FileService fileService = new FileService();
-                    try {
-                        fileService.exportToCSV("contacts.csv",manager);
-                    } catch (IOException e) {
-                        System.out.println("Lỗi ghi file");
+                    System.out.println("Việc đọc file sẽ làm mất dữ liệu hiện tại, tiếp tục ? (Y/N)");
+                    char confirm = scanner.next().toLowerCase().charAt(0);
+                    if (confirm == 'y') {
+                        try {
+                            manager = fileService.readFromFile("contact.dat");
+                            System.out.println("Đọc dữ liệu thành công");
+                        } catch (FileNotFoundException e) {
+                            System.out.println("Không có dữ liệu được lưu");
+                        } catch (IOException | ClassNotFoundException e) {
+                            System.out.println("Đọc dữ liệu không thành công");
+                        }
                     }
                     break;
-                case "0":
+                case "7":
+                    try {
+                        fileService.exportToCSV("contacts.csv", manager);
+                    } catch (IOException e) {
+                        System.out.println("Lỗi xuất File");
+                    }
+                    break;
+                case "8":
                     System.out.println("Thoát chương trình");
+                    try {
+                        fileService.writeToFile("contact.dat", manager);
+                    } catch (IOException e) {
+                        System.out.println("Có lỗi không lưu được File!");
+                    }
                     isExit = true;
                     break;
                 default:

@@ -3,12 +3,12 @@ package main;/*
  * @author Duc on 4/27/2020
  */
 
+import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-public class Manager {
+public class Manager implements Serializable {
     private List<Contact> contacts;
 
     public Manager() {

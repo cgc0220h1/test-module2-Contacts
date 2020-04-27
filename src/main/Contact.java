@@ -85,7 +85,7 @@ public class Contact implements Serializable, Comparable<Contact> {
                 "Gender: " + gender +  "\n" +
                 "Address: " + address + "\n" +
                 "BirthDay: " + birthDay.toString() + "\n" +
-                ", email='" + email + "\n";
+                "Email: " + email + "\n";
     }
 
     @Override
