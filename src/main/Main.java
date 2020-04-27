@@ -3,6 +3,7 @@ package main;/*
  * @author Duc on 4/27/2020
  */
 
+import java.io.IOException;
 import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.util.InputMismatchException;
@@ -25,11 +26,8 @@ public class Main {
                         System.out.println("Danh bạ trống, cần thêm danh bạ");
                     } else {
                         for (int index = 0; index < manager.getContactsList().size(); index++) {
-                            for (int count = index; count < 5; count++) {
-
-                            }
+                            System.out.println(manager.getContactsList().get(index));
                         }
-
                     }
                     break;
                 case "2":
@@ -118,7 +116,13 @@ public class Main {
                     }
                     break;
                 case "6":
-
+                    FileService fileService = new FileService();
+                    try {
+                        fileService.exportToCSV("contacts.csv",manager);
+                    } catch (IOException e) {
+                        System.out.println("Lỗi ghi file");
+                    }
+                    break;
                 case "0":
                     System.out.println("Thoát chương trình");
                     isExit = true;
